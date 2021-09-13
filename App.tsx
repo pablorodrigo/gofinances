@@ -10,8 +10,15 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
+import i18n from 'i18n-js';
+import { en_us, pt_br } from './src/i18n/supportedLanguages';
+import * as Localization from 'expo-localization';
 
 export default function App() {
+  i18n.fallbacks = true;
+  i18n.translations = { en: en_us, pt: pt_br };
+  i18n.locale = Localization.locale;
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,

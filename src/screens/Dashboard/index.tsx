@@ -4,6 +4,7 @@
  * Time: 10:04
  */
 
+import getTranslation from '../../i18n/supportedLanguages';
 import React from 'react';
 import {
   Container,
@@ -31,7 +32,7 @@ export function Dashboard() {
               }}
             />
             <User>
-              <UserGreeting>Hello, </UserGreeting>
+              <UserGreeting>{getTranslation('hello')}, </UserGreeting>
               <UserName>Pablo</UserName>
             </User>
           </UserInfo>
@@ -41,19 +42,19 @@ export function Dashboard() {
       <HighlightCards>
         <HighlightCard
           type="up"
-          title="Entradas"
+          title={getTranslation('transfers')}
           amount="R$ 18.000,000"
           lastTransaction="Last transaction at 12/12/2012"
         />
         <HighlightCard
           type="down"
-          title="Saídas"
+          title={getTranslation('debits')}
           amount="R$ 1.259,000"
           lastTransaction="Last cash inflow at 12/12/2012"
         />
         <HighlightCard
           type="total"
-          title="Total"
+          title={getTranslation('total')}
           amount="R$ 18.000,000"
           lastTransaction="updated at 12/12/2012"
         />
