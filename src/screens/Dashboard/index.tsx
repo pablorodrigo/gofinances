@@ -15,7 +15,9 @@ import {
   Photo,
   UserContainer,
   IconLogout,
+  HighlightCards,
 } from './styles';
+import { HighlightCard } from '../../components/HighlightCard';
 
 export function Dashboard() {
   return (
@@ -36,6 +38,26 @@ export function Dashboard() {
           <IconLogout name="power" />
         </UserContainer>
       </Header>
+      <HighlightCards>
+        <HighlightCard
+          type="up"
+          title="Entradas"
+          amount="R$ 18.000,000"
+          lastTransaction="Last transaction at 12/12/2012"
+        />
+        <HighlightCard
+          type="down"
+          title="Saídas"
+          amount="R$ 1.259,000"
+          lastTransaction="Last cash inflow at 12/12/2012"
+        />
+        <HighlightCard
+          type="total"
+          title="Total"
+          amount="R$ 18.000,000"
+          lastTransaction="updated at 12/12/2012"
+        />
+      </HighlightCards>
     </Container>
   );
 }
