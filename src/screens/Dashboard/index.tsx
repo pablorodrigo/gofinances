@@ -17,10 +17,48 @@ import {
   UserContainer,
   IconLogout,
   HighlightCards,
+  Transactions,
+  Title,
+  TransactionList,
 } from './styles';
 import { HighlightCard } from '../../components/HighlightCard';
+import {
+  ITransactionCardProps,
+  TransactionCard,
+} from '../../components/TransactionCard';
+
+export interface IDataList extends ITransactionCardProps {
+  id: string;
+}
 
 export function Dashboard() {
+  const data: IDataList[] = [
+    {
+      id: '1',
+      type: 'positive',
+      title: 'Titulo do card',
+      amount: 'R$ 18.000,000',
+      date: '13/04/1022',
+      category: { name: 'vendas', icon: 'dollar-sign' },
+    },
+    {
+      id: '2',
+
+      type: 'negative',
+      title: 'Titulo do card',
+      amount: 'R$ 18.000,000',
+      date: '13/04/1022',
+      category: { name: 'alimentacao', icon: 'coffee' },
+    },
+    {
+      id: '3',
+      type: 'negative',
+      title: 'Titulo do card',
+      amount: 'R$ 18.000,000',
+      date: '13/04/1022',
+      category: { name: 'casa', icon: 'shopping-bag' },
+    },
+  ];
   return (
     <Container>
       <Header>
@@ -59,6 +97,15 @@ export function Dashboard() {
           lastTransaction="updated at 12/12/2012"
         />
       </HighlightCards>
+      <Transactions>
+        <Title>Listagem</Title>
+        <TransactionList
+          data={data}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <TransactionCard data={item} />}
+        />
+        {}
+      </Transactions>
     </Container>
   );
 }
