@@ -13,6 +13,7 @@ import {
 import i18n from 'i18n-js';
 import { en_us, pt_br } from './src/i18n/supportedLanguages';
 import * as Localization from 'expo-localization';
+import { Register } from './src/screens/Register';
 
 export default function App() {
   i18n.fallbacks = true;
@@ -31,7 +32,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Dashboard />
+      <Register />
     </ThemeProvider>
   );
 }

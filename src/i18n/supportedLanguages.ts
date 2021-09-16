@@ -14,6 +14,10 @@ const en_us = {
   total: 'total',
   debits: 'debits',
   transfers: 'transfers',
+  register: 'register',
+  name: 'name',
+  price: 'price',
+  send: 'send',
 };
 
 const pt_br = {
@@ -23,6 +27,10 @@ const pt_br = {
   total: 'total',
   debits: 'saidas',
   transfers: 'entradas',
+  register: 'cadastro',
+  name: 'nome',
+  price: 'preço',
+  send: 'enviar',
 };
 
 export default function getTranslation(key: string) {
