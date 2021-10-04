@@ -5,7 +5,7 @@
  */
 
 import i18n from 'i18n-js';
-import { capitalize } from '../util/strings';
+import { capitalize } from '../utils/strings';
 
 const en_us = {
   welcome: 'welcome',

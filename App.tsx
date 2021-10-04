@@ -14,6 +14,7 @@ import i18n from 'i18n-js';
 import { en_us, pt_br } from './src/i18n/supportedLanguages';
 import * as Localization from 'expo-localization';
 import { Register } from './src/screens/Register';
+import { CategorySelect } from './src/screens/CategorySelect';
 
 export default function App() {
   i18n.fallbacks = true;
