@@ -20,6 +20,13 @@ import { TransactionTypeButton } from '../../components/Forms/TransactionTypeBut
 import { CategorySelectButton } from '../../components/CategorySelectButton';
 import { Modal } from 'react-native';
 import { CategorySelect } from '../CategorySelect';
+import { InputForm } from '../../components/Forms/InputForm';
+import { useForm } from 'react-hook-form';
+
+interface IFormData {
+  name: string;
+  amount: string;
+}
 
 export function Register() {
   const [category, setCategory] = useState({
@@ -28,6 +35,8 @@ export function Register() {
   });
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
+  const { control, handleSubmit } = useForm();
 
   function handleTransactionsTypeSelected(type: 'up' | 'down') {
     setTransactionType(type);
@@ -40,6 +49,17 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
+  function handleRegister(form: IFormData) {
+    const data = {
+      name: form.name,
+      amount: form.amount,
+      transactionType,
+      category: category.key,
+    };
+
+    console.log(data);
+  }
+
   return (
     <Container>
       <Header>
@@ -47,8 +67,16 @@ export function Register() {
       </Header>
       <Form>
         <Fields>
-          <Input placeholder={getTranslation('name')} />
-          <Input placeholder={getTranslation('price')} />
+          <InputForm
+            name="name"
+            control={control}
+            placeholder={getTranslation('name')}
+          />
+          <InputForm
+            name="amount"
+            control={control}
+            placeholder={getTranslation('price')}
+          />
           <TransactionTypes>
             <TransactionTypeButton
               title="Income"
@@ -69,7 +97,10 @@ export function Register() {
             onPress={handleOpenSelectCategoryModal}
           />
         </Fields>
-        <Button title={getTranslation('send')} />
+        <Button
+          onPress={handleSubmit(handleRegister)}
+          title={getTranslation('send')}
+        />
       </Form>
 
       <Modal visible={categoryModalOpen}>
