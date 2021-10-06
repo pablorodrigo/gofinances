@@ -15,6 +15,8 @@ import { en_us, pt_br } from './src/i18n/supportedLanguages';
 import * as Localization from 'expo-localization';
 import { Register } from './src/screens/Register';
 import { CategorySelect } from './src/screens/CategorySelect';
+import { NavigationContainer } from '@react-navigation/native';
+import { AppRoutes } from './src/screens/app.routes';
 
 export default function App() {
   i18n.fallbacks = true;
@@ -33,7 +35,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Register />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }

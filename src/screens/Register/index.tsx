@@ -18,7 +18,7 @@ import getTranslation from '../../i18n/supportedLanguages';
 import { Input } from '../../components/Forms/Input';
 import { Button } from '../../components/Forms/Button';
 import { TransactionTypeButton } from '../../components/Forms/TransactionTypeButton';
-import { CategorySelectButton } from '../../components/CategorySelectButton';
+import { CategorySelectButton } from '../../components/Forms/CategorySelectButton';
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 import { CategorySelect } from '../CategorySelect';
 import { InputForm } from '../../components/Forms/InputForm';

@@ -15,6 +15,7 @@ import {
   User,
   Photo,
   UserContainer,
+  LogoutButton,
   IconLogout,
   HighlightCards,
   Transactions,
@@ -74,7 +75,9 @@ export function Dashboard() {
               <UserName>Pablo</UserName>
             </User>
           </UserInfo>
-          <IconLogout name="power" />
+          <LogoutButton>
+            <IconLogout name="power" />
+          </LogoutButton>
         </UserContainer>
       </Header>
       <HighlightCards>
