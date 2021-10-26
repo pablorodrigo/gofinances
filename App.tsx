@@ -3,6 +3,9 @@ import AppLoading from 'expo-app-loading';
 import { Dashboard } from './src/screens/Dashboard';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+import 'intl/locale-data/jsonp/en-US';
 
 import {
   useFonts,

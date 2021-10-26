@@ -12,7 +12,7 @@ import {
   getStatusBarHeight,
 } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
-import { IDataList } from './index';
+import { IDataListProps } from './index';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
@@ -93,7 +93,7 @@ export const Title = styled.Text`
 `;
 
 export const TransactionList = styled(
-  FlatList as new () => FlatList<IDataList>
+  FlatList as new () => FlatList<IDataListProps>
 ).attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {

@@ -18,6 +18,8 @@ const en_us = {
   name: 'name',
   price: 'price',
   send: 'send',
+  locale: 'en-US',
+  currency: 'USD',
 };
 
 const pt_br = {
@@ -31,6 +33,8 @@ const pt_br = {
   name: 'nome',
   price: 'preço',
   send: 'enviar',
+  locale: 'pt-BR',
+  currency: 'BRL',
 };
 
 export default function getTranslation(key: string) {

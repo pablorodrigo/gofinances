@@ -27,6 +27,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import uuid from 'react-native-uuid';
 import { useNavigation } from '@react-navigation/native';
+import env from '../../shared/env';
 
 export interface IFormDataProps {
   name: string;
@@ -57,7 +58,7 @@ export function Register() {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
-  const dataKey = '@gofinances:transactions';
+  const dataKey = env.STORAGE_DATA_KEY;
 
   const {
     control,
@@ -66,7 +67,7 @@ export function Register() {
     formState: { errors },
   } = useForm<IFormDataProps>({ resolver: yupResolver(schema) });
 
-  function handleTransactionsTypeSelected(type: 'up' | 'down') {
+  function handleTransactionsTypeSelected(type: 'positive' | 'negative') {
     setTransactionType(type);
   }
 
@@ -87,14 +88,14 @@ export function Register() {
       id: String(uuid.v4()),
       name: form.name,
       amount: form.amount,
-      transactionType,
+      type: transactionType,
       category: category.key,
       date: new Date(),
     };
     // console.log(newTransaction);
 
     try {
-      const data = await AsyncStorage.getItem(dataKey);
+      const data = await AsyncStorage.getItem(env.STORAGE_DATA_KEY);
 
       const currentData = data ? JSON.parse(data) : [];
 
@@ -167,14 +168,14 @@ export function Register() {
               <TransactionTypeButton
                 title="Income"
                 type="up"
-                onPress={() => handleTransactionsTypeSelected('up')}
-                isActive={transactionType === 'up'}
+                onPress={() => handleTransactionsTypeSelected('positive')}
+                isActive={transactionType === 'positive'}
               />
               <TransactionTypeButton
                 title="Outcome"
                 type="down"
-                onPress={() => handleTransactionsTypeSelected('down')}
-                isActive={transactionType === 'down'}
+                onPress={() => handleTransactionsTypeSelected('negative')}
+                isActive={transactionType === 'negative'}
               />
             </TransactionTypes>
 
