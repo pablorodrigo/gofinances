@@ -35,15 +35,37 @@ export interface IDataListProps extends ITransactionCardProps {
   id: string;
 }
 
+interface HighlightProps {
+  amount: string;
+}
+
+interface HighlightData {
+  incomes: HighlightProps;
+  outcomes: HighlightProps;
+  total: HighlightProps;
+}
+
 export function Dashboard() {
-  const [data, setData] = useState<IDataListProps[]>([]);
+  const [transactions, setTransactions] = useState<IDataListProps[]>([]);
+  const [highlightData, setHighlightData] = useState<HighlightData>(
+    {} as HighlightData
+  );
 
   async function loadTransactions() {
     const response = await AsyncStorage.getItem(env.STORAGE_DATA_KEY);
     const transactions = response ? JSON.parse(response) : [];
 
+    let incomeTotal = 0;
+    let outcomeTotal = 0;
+
     const transactionsFormatted: IDataListProps[] = transactions.map(
       (transaction: IDataListProps) => {
+        if (transaction.type === 'positive') {
+          incomeTotal += Number(transaction.amount);
+        } else {
+          outcomeTotal += Number(transaction.amount);
+        }
+
         const amount = Number(transaction.amount).toLocaleString(
           getTranslation('locale'),
           {
@@ -69,12 +91,35 @@ export function Dashboard() {
       }
     );
 
-    setData(transactionsFormatted);
+    setTransactions(transactionsFormatted);
+
+    const total = incomeTotal - outcomeTotal;
+
+    setHighlightData({
+      incomes: {
+        amount: incomeTotal.toLocaleString(getTranslation('locale'), {
+          style: 'currency',
+          currency: getTranslation('currency'),
+        }),
+      },
+      outcomes: {
+        amount: outcomeTotal.toLocaleString(getTranslation('locale'), {
+          style: 'currency',
+          currency: getTranslation('currency'),
+        }),
+      },
+      total: {
+        amount: total.toLocaleString(getTranslation('locale'), {
+          style: 'currency',
+          currency: getTranslation('currency'),
+        }),
+      },
+    });
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     loadTransactions();
-  }, []);
+  }, []);*/
 
   useFocusEffect(
     useCallback(() => {
@@ -106,26 +151,26 @@ export function Dashboard() {
         <HighlightCard
           type="up"
           title={getTranslation('transfers')}
-          amount="R$ 18.000,000"
+          amount={highlightData.incomes.amount}
           lastTransaction="Last transaction at 12/12/2012"
         />
         <HighlightCard
           type="down"
           title={getTranslation('debits')}
-          amount="R$ 1.259,000"
+          amount={highlightData.outcomes.amount}
           lastTransaction="Last cash inflow at 12/12/2012"
         />
         <HighlightCard
           type="total"
           title={getTranslation('total')}
-          amount="R$ 18.000,000"
+          amount={highlightData.total.amount}
           lastTransaction="updated at 12/12/2012"
         />
       </HighlightCards>
       <Transactions>
         <Title>Listagem</Title>
         <TransactionList
-          data={data}
+          data={transactions}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <TransactionCard data={item} />}
         />
