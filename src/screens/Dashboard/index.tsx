@@ -40,6 +40,7 @@ export interface IDataListProps extends ITransactionCardProps {
 
 interface HighlightProps {
   amount: string;
+  lastTransaction: string;
 }
 
 interface HighlightData {
@@ -56,6 +57,34 @@ export function Dashboard() {
   );
 
   const theme = useTheme();
+
+  function getLastTransactionFormattedDate(
+    collection: IDataListProps[],
+    type: 'positive' | 'negative'
+  ) {
+    const transactions = collection
+      .filter((transaction) => transaction.type === type)
+      .map((transaction) => new Date(transaction.date).getTime());
+
+    const lastTransaction = new Date(Math.max.apply(Math, transactions));
+
+    /* const lastTransactionFormatted = Intl.DateTimeFormat(
+      getTranslation('locale'),
+      {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit',
+      }
+    ).format(lastTransaction);*/
+
+    // BR
+    const lastTransactionFormatted = `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString(
+      'pt-BR',
+      { month: 'long' }
+    )}`;
+
+    return lastTransactionFormatted;
+  }
 
   async function loadTransactions() {
     const response = await AsyncStorage.getItem(env.STORAGE_DATA_KEY);
@@ -99,6 +128,18 @@ export function Dashboard() {
 
     setTransactions(transactionsFormatted);
 
+    const lastTransactionIncomes = getLastTransactionFormattedDate(
+      transactions,
+      'positive'
+    );
+
+    const lastTransactionOutcomes = getLastTransactionFormattedDate(
+      transactions,
+      'negative'
+    );
+
+    const totalInterval = `01 until ${lastTransactionOutcomes}`;
+
     const total = incomeTotal - outcomeTotal;
 
     setHighlightData({
@@ -107,18 +148,21 @@ export function Dashboard() {
           style: 'currency',
           currency: getTranslation('currency'),
         }),
+        lastTransaction: 'Last transaction at ' + lastTransactionIncomes,
       },
       outcomes: {
         amount: outcomeTotal.toLocaleString(getTranslation('locale'), {
           style: 'currency',
           currency: getTranslation('currency'),
         }),
+        lastTransaction: 'Last transaction at ' + lastTransactionOutcomes,
       },
       total: {
         amount: total.toLocaleString(getTranslation('locale'), {
           style: 'currency',
           currency: getTranslation('currency'),
         }),
+        lastTransaction: totalInterval,
       },
     });
     setIsLoading(false);
@@ -165,19 +209,19 @@ export function Dashboard() {
               type="up"
               title={getTranslation('transfers')}
               amount={highlightData.incomes.amount}
-              lastTransaction="Last transaction at 12/12/2012"
+              lastTransaction={highlightData.incomes.lastTransaction}
             />
             <HighlightCard
               type="down"
               title={getTranslation('debits')}
               amount={highlightData.outcomes.amount}
-              lastTransaction="Last cash inflow at 12/12/2012"
+              lastTransaction={highlightData.outcomes.lastTransaction}
             />
             <HighlightCard
               type="total"
               title={getTranslation('total')}
               amount={highlightData.total.amount}
-              lastTransaction="updated at 12/12/2012"
+              lastTransaction={highlightData.total.lastTransaction}
             />
           </HighlightCards>
           <Transactions>
