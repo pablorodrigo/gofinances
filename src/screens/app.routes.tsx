@@ -12,6 +12,7 @@ import { Register } from './Register';
 import theme from '../global/styles/theme';
 import { Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Resume } from './Resume';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -53,7 +54,7 @@ export function AppRoutes() {
       />
       <Screen
         name="resumo"
-        component={Register}
+        component={Resume}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="pie-chart" size={size} color={color} />
