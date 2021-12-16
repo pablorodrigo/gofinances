@@ -1,6 +1,5 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { Dashboard } from './src/screens/Dashboard';
 import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
 import 'intl';
@@ -16,10 +15,9 @@ import {
 import i18n from 'i18n-js';
 import { en_us, pt_br } from './src/i18n/supportedLanguages';
 import * as Localization from 'expo-localization';
-import { Register } from './src/screens/Register';
-import { CategorySelect } from './src/screens/CategorySelect';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppRoutes } from './src/screens/app.routes';
+import { StatusBar } from 'react-native';
 
 export default function App() {
   i18n.fallbacks = true;
@@ -39,6 +37,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
+        <StatusBar barStyle="light-content" />
         <AppRoutes />
       </NavigationContainer>
     </ThemeProvider>
