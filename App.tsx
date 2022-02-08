@@ -18,6 +18,7 @@ import * as Localization from 'expo-localization';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppRoutes } from './src/screens/app.routes';
 import { StatusBar } from 'react-native';
+import { SignIn } from './src/screens/SignIn';
 
 export default function App() {
   i18n.fallbacks = true;
@@ -38,7 +39,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StatusBar barStyle="light-content" />
-        <AppRoutes />
+        <SignIn />
       </NavigationContainer>
     </ThemeProvider>
   );
