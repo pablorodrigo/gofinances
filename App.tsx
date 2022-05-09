@@ -16,9 +16,9 @@ import i18n from 'i18n-js';
 import { en_us, pt_br } from './src/i18n/supportedLanguages';
 import * as Localization from 'expo-localization';
 import { NavigationContainer } from '@react-navigation/native';
-import { AppRoutes } from './src/screens/app.routes';
 import { StatusBar } from 'react-native';
 import { SignIn } from './src/screens/SignIn';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   i18n.fallbacks = true;
@@ -39,7 +39,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <StatusBar barStyle="light-content" />
-        <SignIn />
+        <AuthProvider>
+          <SignIn />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
