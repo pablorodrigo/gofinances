@@ -24,7 +24,6 @@ export const Header = styled.View`
 `;
 
 export const TitleWrapper = styled.View`
-  width: 100%;
   align-items: center;
 `;
 
@@ -33,7 +32,7 @@ export const Title = styled.Text`
   font-size: ${RFValue(30)}px;
   color: ${({ theme }) => theme.colors.shape};
   text-align: center;
-  margin-top: 45px;
+  margin: 45px 45px 0 45px;
 `;
 
 export const SignInTitle = styled.Text`

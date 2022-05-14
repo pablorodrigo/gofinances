@@ -27,18 +27,21 @@ import { useAuth } from '../../hooks/auth';
 export function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { user } = useAuth();
-  console.log(user.email);
+  const { user, signInWithGoogle } = useAuth();
   //const { signInWithGoogle, signInWithApple } = useAuth();
   const theme = useTheme();
 
   async function handleSignInWithGoogle() {
     try {
       setIsLoading(true);
-      //return await signInWithGoogle();
-    } catch (err) {
-      console.log(err);
-      Alert.alert('Não foi possível conectar com a conta Google!');
+      return await signInWithGoogle();
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        'Erro ao fazer autênticação com o google',
+        'tente novamente.'
+      );
+      setIsLoading(false);
     }
   }
 

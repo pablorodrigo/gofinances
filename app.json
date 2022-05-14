@@ -1,11 +1,12 @@
 {
   "expo": {
+    "owner": "pablorodrigo",
     "name": "goficances",
     "slug": "goficances",
+    "scheme": "goficances",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ]
-  },
-  "name": "goficances"
+  }
 }
