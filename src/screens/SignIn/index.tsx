@@ -27,8 +27,7 @@ import { useAuth } from '../../hooks/auth';
 export function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const { user, signInWithGoogle } = useAuth();
-  //const { signInWithGoogle, signInWithApple } = useAuth();
+  const { signInWithGoogle, signInWithApple } = useAuth();
   const theme = useTheme();
 
   async function handleSignInWithGoogle() {
@@ -48,10 +47,11 @@ export function SignIn() {
   async function handleSignInWithApple() {
     try {
       setIsLoading(true);
-      //return await signInWithApple();
+      return await signInWithApple();
     } catch (err) {
       console.log(err);
       Alert.alert('Não foi possível conectar com a conta Apple!');
+      setIsLoading(false);
     }
   }
 

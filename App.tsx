@@ -15,7 +15,7 @@ import {
 import i18n from 'i18n-js';
 import { en_us, pt_br } from './src/i18n/supportedLanguages';
 import * as Localization from 'expo-localization';
-import { NavigationContainer } from '@react-navigation/native';
+import { Routes } from './src/routes';
 import { StatusBar } from 'react-native';
 import { SignIn } from './src/screens/SignIn';
 import { AuthProvider } from './src/hooks/auth';
@@ -37,12 +37,10 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StatusBar barStyle="light-content" />
-        <AuthProvider>
-          <SignIn />
-        </AuthProvider>
-      </NavigationContainer>
+      <StatusBar barStyle="light-content" />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

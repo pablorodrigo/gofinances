@@ -7,12 +7,12 @@
 import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Dashboard } from './Dashboard';
-import { Register } from './Register';
+import { Dashboard } from '../screens/Dashboard';
+import { Register } from '../screens/Register';
 import theme from '../global/styles/theme';
 import { Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Resume } from './Resume';
+import { Resume } from '../screens/Resume';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
