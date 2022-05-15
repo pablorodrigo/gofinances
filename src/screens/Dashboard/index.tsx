@@ -29,10 +29,10 @@ import {
   TransactionCard,
 } from '../../components/TransactionCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import env from '../../shared/env';
 import { useFocusEffect } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../hooks/auth';
 
 export interface IDataListProps extends ITransactionCardProps {
   id: string;
@@ -57,11 +57,20 @@ export function Dashboard() {
   );
 
   const theme = useTheme();
+  const { signOut, user } = useAuth();
 
   function getLastTransactionFormattedDate(
     collection: IDataListProps[],
     type: 'positive' | 'negative'
   ) {
+    const collectionFiltered = collection.filter(
+      (transaction) => transaction.type === type
+    );
+
+    if (collectionFiltered.length === 0) {
+      return 0;
+    }
+
     const transactions = collection
       .filter((transaction) => transaction.type === type)
       .map((transaction) => new Date(transaction.date).getTime());
@@ -76,7 +85,6 @@ export function Dashboard() {
         year: '2-digit',
       }
     ).format(lastTransaction);*/
-
     // BR
     const lastTransactionFormatted = `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString(
       'pt-BR',
@@ -87,11 +95,14 @@ export function Dashboard() {
   }
 
   async function loadTransactions() {
-    const response = await AsyncStorage.getItem(env.STORAGE_DATA_KEY);
+    const dataKey = `${process.env.STORAGE_DATA_KEY_TRANSACTIONS}_user:${user.id}`;
+    const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
     let incomeTotal = 0;
     let outcomeTotal = 0;
+
+    console.log(user);
 
     const transactionsFormatted: IDataListProps[] = transactions.map(
       (transaction: IDataListProps) => {
@@ -148,21 +159,28 @@ export function Dashboard() {
           style: 'currency',
           currency: getTranslation('currency'),
         }),
-        lastTransaction: 'Last transaction at ' + lastTransactionIncomes,
+        lastTransaction:
+          lastTransactionIncomes === 0
+            ? 'Não há transações'
+            : `Last transaction at ${lastTransactionIncomes}`,
       },
       outcomes: {
         amount: outcomeTotal.toLocaleString(getTranslation('locale'), {
           style: 'currency',
           currency: getTranslation('currency'),
         }),
-        lastTransaction: 'Last transaction at ' + lastTransactionOutcomes,
+        lastTransaction:
+          lastTransactionOutcomes === 0
+            ? 'Não há transações'
+            : 'Last transaction at ' + lastTransactionOutcomes,
       },
       total: {
         amount: total.toLocaleString(getTranslation('locale'), {
           style: 'currency',
           currency: getTranslation('currency'),
         }),
-        lastTransaction: totalInterval,
+        lastTransaction:
+          incomeTotal === 0 || outcomeTotal === 0 ? '' : totalInterval,
       },
     });
     setIsLoading(false);
@@ -191,15 +209,15 @@ export function Dashboard() {
               <UserInfo>
                 <Photo
                   source={{
-                    uri: 'https://avatars.githubusercontent.com/u/6105149?v=4',
+                    uri: user.photo,
                   }}
                 />
                 <User>
                   <UserGreeting>{getTranslation('hello')}, </UserGreeting>
-                  <UserName>Pablo</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
-              <LogoutButton>
+              <LogoutButton onPress={signOut}>
                 <IconLogout name="power" />
               </LogoutButton>
             </UserContainer>

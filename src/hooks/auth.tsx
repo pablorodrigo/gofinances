@@ -30,6 +30,8 @@ interface AuthContextData {
   user: User;
   signInWithGoogle(): Promise<void>;
   signInWithApple(): Promise<void>;
+  signOut: () => Promise<void>;
+  userStorageLoading: boolean;
 }
 
 interface IAuthorizationResponse {
@@ -44,7 +46,7 @@ export const AuthContext = createContext({} as AuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const userStorageKey = String(process.env.STORAGE_DATA_KEY_USER);
-  const [userStorageIsLoading, setUserStorageIsLoading] = useState(true);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
 
   async function signInWithGoogle() {
     try {
@@ -72,7 +74,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           photo: userInfo.picture,
         });
 
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
       }
     } catch (error) {
       console.log(error);
@@ -101,7 +103,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
         setUser(userLogged);
 
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userLogged));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
       }
     } catch (err) {
       throw new Error(err);
@@ -122,14 +124,22 @@ function AuthProvider({ children }: AuthProviderProps) {
         setUser(userLogged);
       }
 
-      setUserStorageIsLoading(false);
+      setUserStorageLoading(false);
     }
 
     loadUserStorageData();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        signInWithGoogle,
+        signInWithApple,
+        signOut,
+        userStorageLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

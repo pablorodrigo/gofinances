@@ -19,7 +19,6 @@ import {
 } from './styles';
 import { HistoryCar } from '../../components/HistoryCar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import env from '../../shared/env';
 import { categories } from '../../utils/categories';
 import { VictoryPie } from 'victory-native';
 import { useTheme } from 'styled-components';
@@ -30,6 +29,7 @@ import { enUS, ptBR } from 'date-fns/locale';
 import i18n from 'i18n-js';
 import { ActivityIndicator } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { useAuth } from '../../hooks/auth';
 
 interface ITransactionProps {
   type: 'positive' | 'negative';
@@ -56,6 +56,7 @@ export function Resume() {
   );
 
   const theme = useTheme();
+  const { user } = useAuth();
 
   function handleDateChange(action: 'next' | 'prev') {
     if (action === 'next') {
@@ -71,8 +72,10 @@ export function Resume() {
   }
 
   async function loadData() {
+    const dataKey = `${process.env.STORAGE_DATA_KEY_TRANSACTIONS}_user:${user.id}`;
+
     setIsLoading(true);
-    const response = await AsyncStorage.getItem(env.STORAGE_DATA_KEY);
+    const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
     console.log(responseFormatted);

@@ -27,7 +27,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import uuid from 'react-native-uuid';
 import { useNavigation } from '@react-navigation/native';
-import env from '../../shared/env';
+import { AuthContext, useAuth } from '../../hooks/auth';
 
 export interface IFormDataProps {
   name: string;
@@ -58,7 +58,8 @@ export function Register() {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
-  const dataKey = env.STORAGE_DATA_KEY;
+  const { user } = useAuth();
+  const dataKey = `${process.env.STORAGE_DATA_KEY_TRANSACTIONS}_user:${user.id}`;
 
   const {
     control,
@@ -95,7 +96,7 @@ export function Register() {
     // console.log(newTransaction);
 
     try {
-      const data = await AsyncStorage.getItem(env.STORAGE_DATA_KEY);
+      const data = await AsyncStorage.getItem(dataKey);
 
       const currentData = data ? JSON.parse(data) : [];
 

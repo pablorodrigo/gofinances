@@ -41,6 +41,8 @@ export function SignIn() {
         'tente novamente.'
       );
       setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -51,6 +53,8 @@ export function SignIn() {
     } catch (err) {
       console.log(err);
       Alert.alert('Não foi possível conectar com a conta Apple!');
+      setIsLoading(false);
+    } finally {
       setIsLoading(false);
     }
   }
